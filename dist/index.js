@@ -19351,7 +19351,10 @@ const glob = __nccwpck_require__(1957)
 const filePath = process.cwd() + "/"
 const fileArray = []
 
-const forFiles = (err, files) => (fileArray = files)
+const forFiles = (err, files) => {
+  console.log(files)
+  fileArray = files
+}
 
 glob(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"), forFiles)
 
