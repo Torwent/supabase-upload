@@ -19336,12 +19336,15 @@ var __webpack_exports__ = {};
 __nccwpck_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _supabase_supabase_js__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(1206);
-/* harmony import */ var _supabase_supabase_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(1206);
+/* harmony import */ var _supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__nccwpck_require__.n(_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(1017);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var glob_sync__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(9010);
+/* harmony import */ var glob_sync__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(glob_sync__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(1017);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(path__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -19349,19 +19352,11 @@ __nccwpck_require__.r(__webpack_exports__);
 const glob = __nccwpck_require__(1957)
 
 const filePath = process.cwd() + "/"
-let fileArray = []
-
-const forFiles = (err, files) => {
-  console.log("Debugging files: ", files)
-  fileArray = files
-  console.log("Debugging fileArray: ", fileArray)
-}
-
-glob.sync(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"), forFiles)
+const fileArray = glob.sync(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"))
 
 console.log("Debugging fileArray2: ", fileArray)
 
-const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_3__.createClient)(
+const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__.createClient)(
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_URL"),
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_ANON_KEY")
 )
@@ -19382,7 +19377,7 @@ async function run(file) {
 
   const { error1 } = await supabase.storage
     .from((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("BUCKET"))
-    .upload((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("TARGET_PATH") + (0,path__WEBPACK_IMPORTED_MODULE_2__.basename)(file), (0,fs__WEBPACK_IMPORTED_MODULE_1__.readFileSync)(file))
+    .upload((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("TARGET_PATH") + (0,path__WEBPACK_IMPORTED_MODULE_3__.basename)(file), (0,fs__WEBPACK_IMPORTED_MODULE_1__.readFileSync)(file))
 
   if (error1) {
     console.log(error1)

@@ -1,19 +1,12 @@
 import { getInput } from "@actions/core"
 import { createClient } from "@supabase/supabase-js"
 import { readFileSync } from "fs"
+import globSync from "glob/sync"
 import { basename } from "path"
 const glob = require("glob")
 
 const filePath = process.cwd() + "/"
-let fileArray = []
-
-const forFiles = (err, files) => {
-  console.log("Debugging files: ", files)
-  fileArray = files
-  console.log("Debugging fileArray: ", fileArray)
-}
-
-glob.sync(filePath + getInput("ORIGIN_PATH"), forFiles)
+const fileArray = glob.sync(filePath + getInput("ORIGIN_PATH"))
 
 console.log("Debugging fileArray2: ", fileArray)
 
