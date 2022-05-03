@@ -19354,8 +19354,6 @@ const glob = __nccwpck_require__(1957)
 const filePath = process.cwd() + "/"
 const fileArray = glob.sync(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"))
 
-console.log("Debugging fileArray2: ", fileArray)
-
 const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__.createClient)(
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_URL"),
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_ANON_KEY")
@@ -19395,7 +19393,7 @@ async function run(file) {
   }
 }
 
-for (let f in fileArray) {
+for (let f of fileArray) {
   console.log("debug line: ", f)
   run(f)
 }

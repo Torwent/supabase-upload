@@ -8,8 +8,6 @@ const glob = require("glob")
 const filePath = process.cwd() + "/"
 const fileArray = glob.sync(filePath + getInput("ORIGIN_PATH"))
 
-console.log("Debugging fileArray2: ", fileArray)
-
 const supabase = createClient(
   getInput("SUPABASE_URL"),
   getInput("SUPABASE_ANON_KEY")
@@ -49,7 +47,7 @@ async function run(file) {
   }
 }
 
-for (let f in fileArray) {
+for (let f of fileArray) {
   console.log("debug line: ", f)
   run(f)
 }
