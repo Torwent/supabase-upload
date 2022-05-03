@@ -19354,11 +19354,12 @@ let fileArray = []
 const forFiles = (err, files) => {
   console.log("Debugging files: ", files)
   fileArray = files
+  console.log("Debugging fileArray: ", fileArray)
 }
 
 glob(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"), forFiles)
 
-console.log("Debugging fileArray: ", fileArray)
+console.log("Debugging fileArray2: ", fileArray)
 
 const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_3__.createClient)(
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_URL"),
