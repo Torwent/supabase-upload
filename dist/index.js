@@ -19351,7 +19351,9 @@ const glob = __nccwpck_require__(1957)
 const filePath = process.cwd() + "/"
 const fileArray = []
 
-glob(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"), (files) => (fileArray = files))
+const forFiles = (err, files) => (fileArray = files)
+
+glob(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"), forFiles)
 
 const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_3__.createClient)(
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_URL"),

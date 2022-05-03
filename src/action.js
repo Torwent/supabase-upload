@@ -7,7 +7,9 @@ const glob = require("glob")
 const filePath = process.cwd() + "/"
 const fileArray = []
 
-glob(filePath + getInput("ORIGIN_PATH"), (files) => (fileArray = files))
+const forFiles = (err, files) => (fileArray = files)
+
+glob(filePath + getInput("ORIGIN_PATH"), forFiles)
 
 const supabase = createClient(
   getInput("SUPABASE_URL"),
