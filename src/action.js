@@ -5,14 +5,9 @@ import { basename } from "path"
 const glob = require("glob")
 
 const filePath = process.cwd() + "/"
-const fileArray = []
+let fileArray = []
 
-const forFiles = (err, files) => {
-  console.log(files)
-  fileArray = files
-}
-
-glob(filePath + getInput("ORIGIN_PATH"), forFiles)
+glob(filePath + getInput("ORIGIN_PATH"), (files) => (fileArray = files))
 
 const supabase = createClient(
   getInput("SUPABASE_URL"),
