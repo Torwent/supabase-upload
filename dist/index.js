@@ -19351,9 +19351,10 @@ const glob = __nccwpck_require__(1957)
 const filePath = process.cwd() + "/"
 let fileArray = []
 
-const forFiles = (err, files) => (fileArray = files)
-
-glob(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"), forFiles)
+glob(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"), (files) => {
+  console.log("Debugging files: ", files)
+  fileArray = files
+})
 
 console.log("Debugging fileArray: ", fileArray)
 
