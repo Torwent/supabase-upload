@@ -1,12 +1,13 @@
 import { getInput } from "@actions/core"
 import { createClient } from "@supabase/supabase-js"
 import { readFileSync } from "fs"
-import globSync from "glob/sync"
 import { basename } from "path"
-const glob = require("glob")
+import { sync } from "glob"
+
+let isLoggedIn = false
 
 const filePath = process.cwd() + "/"
-const fileArray = glob.sync(filePath + getInput("ORIGIN_PATH"))
+const fileArray = sync(filePath + getInput("ORIGIN_PATH"))
 
 const supabase = createClient(
   getInput("SUPABASE_URL"),
@@ -14,40 +15,42 @@ const supabase = createClient(
 )
 
 async function run(file) {
-  if (getInput("EMAIL") !== "") {
-    const { error0 } = await supabase.auth.signIn({
+  if (!isLoggedIn && getInput("EMAIL") !== "" && getInput("PASSWORD") !== "") {
+    const { loginError } = await supabase.auth.signIn({
       email: getInput("EMAIL"),
       password: getInput("PASSWORD"),
     })
 
-    if (error0) {
-      console.log(error0)
+    if (loginError) {
+      console.log(loginError)
     } else {
+      isLoggedIn = true
       console.log("Logged in as: ", getInput("EMAIL"))
     }
   }
 
-  const { error1 } = await supabase.storage
+  const { uploadError } = await supabase.storage
     .from(getInput("BUCKET"))
     .upload(getInput("TARGET_PATH") + basename(file), readFileSync(file))
 
-  if (error1) {
-    console.log(error1)
+  if (uploadError) {
+    console.log(uploadError)
   } else {
     console.log(file, " uploaded.")
-  }
-
-  if (getInput("EMAIL") !== "") {
-    const { error2 } = await supabase.auth.signOut()
-    if (error2) {
-      console.log(error2)
-    } else {
-      console.log("Logged out of ", getInput("EMAIL"))
-    }
   }
 }
 
 for (let f of fileArray) {
   console.log("debug line: ", f)
   run(f)
+}
+
+if (isLoggedIn) {
+  const { logoutError } = await supabase.auth.signOut()
+  if (logoutError) {
+    console.log(logoutError)
+  } else {
+    isLoggedIn = false
+    console.log("Logged out of ", getInput("EMAIL"))
+  }
 }

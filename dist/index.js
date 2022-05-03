@@ -19091,6 +19091,84 @@ function _dispatchEvent(event) {
 
 /***/ }),
 
+/***/ 3348:
+/***/ ((module, __webpack_exports__, __nccwpck_require__) => {
+
+"use strict";
+__nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__) => {
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(1206);
+/* harmony import */ var _supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__nccwpck_require__.n(_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(1017);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var glob__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(1957);
+/* harmony import */ var glob__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(glob__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+
+let isLoggedIn = false
+
+const filePath = process.cwd() + "/"
+const fileArray = (0,glob__WEBPACK_IMPORTED_MODULE_3__.sync)(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"))
+
+const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__.createClient)(
+  (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_URL"),
+  (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_ANON_KEY")
+)
+
+async function run(file) {
+  if (!isLoggedIn && (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL") !== "" && (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("PASSWORD") !== "") {
+    const { loginError } = await supabase.auth.signIn({
+      email: (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"),
+      password: (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("PASSWORD"),
+    })
+
+    if (loginError) {
+      console.log(loginError)
+    } else {
+      isLoggedIn = true
+      console.log("Logged in as: ", (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"))
+    }
+  }
+
+  const { uploadError } = await supabase.storage
+    .from((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("BUCKET"))
+    .upload((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("TARGET_PATH") + (0,path__WEBPACK_IMPORTED_MODULE_2__.basename)(file), (0,fs__WEBPACK_IMPORTED_MODULE_1__.readFileSync)(file))
+
+  if (uploadError) {
+    console.log(uploadError)
+  } else {
+    console.log(file, " uploaded.")
+  }
+}
+
+for (let f of fileArray) {
+  console.log("debug line: ", f)
+  run(f)
+}
+
+if (isLoggedIn) {
+  const { logoutError } = await supabase.auth.signOut()
+  if (logoutError) {
+    console.log(logoutError)
+  } else {
+    isLoggedIn = false
+    console.log("Logged out of ", (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"))
+  }
+}
+
+__webpack_handle_async_dependencies__();
+}, 1);
+
+/***/ }),
+
 /***/ 2877:
 /***/ ((module) => {
 
@@ -19284,6 +19362,80 @@ module.exports = {"version":"1.0.34"};
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/async module */
+/******/ 	(() => {
+/******/ 		var webpackThen = typeof Symbol === "function" ? Symbol("webpack then") : "__webpack_then__";
+/******/ 		var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";
+/******/ 		var completeQueue = (queue) => {
+/******/ 			if(queue) {
+/******/ 				queue.forEach((fn) => (fn.r--));
+/******/ 				queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
+/******/ 			}
+/******/ 		}
+/******/ 		var completeFunction = (fn) => (!--fn.r && fn());
+/******/ 		var queueFunction = (queue, fn) => (queue ? queue.push(fn) : completeFunction(fn));
+/******/ 		var wrapDeps = (deps) => (deps.map((dep) => {
+/******/ 			if(dep !== null && typeof dep === "object") {
+/******/ 				if(dep[webpackThen]) return dep;
+/******/ 				if(dep.then) {
+/******/ 					var queue = [];
+/******/ 					dep.then((r) => {
+/******/ 						obj[webpackExports] = r;
+/******/ 						completeQueue(queue);
+/******/ 						queue = 0;
+/******/ 					});
+/******/ 					var obj = {};
+/******/ 												obj[webpackThen] = (fn, reject) => (queueFunction(queue, fn), dep['catch'](reject));
+/******/ 					return obj;
+/******/ 				}
+/******/ 			}
+/******/ 			var ret = {};
+/******/ 								ret[webpackThen] = (fn) => (completeFunction(fn));
+/******/ 								ret[webpackExports] = dep;
+/******/ 								return ret;
+/******/ 		}));
+/******/ 		__nccwpck_require__.a = (module, body, hasAwait) => {
+/******/ 			var queue = hasAwait && [];
+/******/ 			var exports = module.exports;
+/******/ 			var currentDeps;
+/******/ 			var outerResolve;
+/******/ 			var reject;
+/******/ 			var isEvaluating = true;
+/******/ 			var nested = false;
+/******/ 			var whenAll = (deps, onResolve, onReject) => {
+/******/ 				if (nested) return;
+/******/ 				nested = true;
+/******/ 				onResolve.r += deps.length;
+/******/ 				deps.map((dep, i) => (dep[webpackThen](onResolve, onReject)));
+/******/ 				nested = false;
+/******/ 			};
+/******/ 			var promise = new Promise((resolve, rej) => {
+/******/ 				reject = rej;
+/******/ 				outerResolve = () => (resolve(exports), completeQueue(queue), queue = 0);
+/******/ 			});
+/******/ 			promise[webpackExports] = exports;
+/******/ 			promise[webpackThen] = (fn, rejectFn) => {
+/******/ 				if (isEvaluating) { return completeFunction(fn); }
+/******/ 				if (currentDeps) whenAll(currentDeps, fn, rejectFn);
+/******/ 				queueFunction(queue, fn);
+/******/ 				promise['catch'](rejectFn);
+/******/ 			};
+/******/ 			module.exports = promise;
+/******/ 			body((deps) => {
+/******/ 				if(!deps) return outerResolve();
+/******/ 				currentDeps = wrapDeps(deps);
+/******/ 				var fn, result;
+/******/ 				var promise = new Promise((resolve, reject) => {
+/******/ 					fn = () => (resolve(result = currentDeps.map((d) => (d[webpackExports]))));
+/******/ 					fn.r = 0;
+/******/ 					whenAll(currentDeps, fn, reject);
+/******/ 				});
+/******/ 				return fn.r ? promise : result;
+/******/ 			}).then(outerResolve, reject);
+/******/ 			isEvaluating = false;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -19329,77 +19481,12 @@ module.exports = {"version":"1.0.34"};
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-__nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(1206);
-/* harmony import */ var _supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__nccwpck_require__.n(_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var glob_sync__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(9010);
-/* harmony import */ var glob_sync__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(glob_sync__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(1017);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(path__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-
-const glob = __nccwpck_require__(1957)
-
-const filePath = process.cwd() + "/"
-const fileArray = glob.sync(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"))
-
-const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__.createClient)(
-  (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_URL"),
-  (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_ANON_KEY")
-)
-
-async function run(file) {
-  if ((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL") !== "") {
-    const { error0 } = await supabase.auth.signIn({
-      email: (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"),
-      password: (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("PASSWORD"),
-    })
-
-    if (error0) {
-      console.log(error0)
-    } else {
-      console.log("Logged in as: ", (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"))
-    }
-  }
-
-  const { error1 } = await supabase.storage
-    .from((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("BUCKET"))
-    .upload((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("TARGET_PATH") + (0,path__WEBPACK_IMPORTED_MODULE_3__.basename)(file), (0,fs__WEBPACK_IMPORTED_MODULE_1__.readFileSync)(file))
-
-  if (error1) {
-    console.log(error1)
-  } else {
-    console.log(file, " uploaded.")
-  }
-
-  if ((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL") !== "") {
-    const { error2 } = await supabase.auth.signOut()
-    if (error2) {
-      console.log(error2)
-    } else {
-      console.log("Logged out of ", (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"))
-    }
-  }
-}
-
-for (let f of fileArray) {
-  console.log("debug line: ", f)
-  run(f)
-}
-
-})();
-
-module.exports = __webpack_exports__;
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module used 'module' so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(3348);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
