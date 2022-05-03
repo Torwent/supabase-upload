@@ -9,6 +9,8 @@ let fileArray = []
 
 glob(filePath + getInput("ORIGIN_PATH"), (files) => (fileArray = files))
 
+console.log("Debugging fileArray: ", fileArray)
+
 const supabase = createClient(
   getInput("SUPABASE_URL"),
   getInput("SUPABASE_ANON_KEY")

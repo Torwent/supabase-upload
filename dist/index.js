@@ -19353,6 +19353,8 @@ let fileArray = []
 
 glob(filePath + (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("ORIGIN_PATH"), (files) => (fileArray = files))
 
+console.log("Debugging fileArray: ", fileArray)
+
 const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_3__.createClient)(
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_URL"),
   (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("SUPABASE_ANON_KEY")
