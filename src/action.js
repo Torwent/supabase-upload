@@ -7,7 +7,9 @@ const glob = require("glob")
 const filePath = process.cwd() + "/"
 let fileArray = []
 
-glob(filePath + getInput("ORIGIN_PATH"), (files) => (fileArray = files))
+const forFiles = (err, files) => (fileArray = files)
+
+glob(filePath + getInput("ORIGIN_PATH"), forFiles)
 
 console.log("Debugging fileArray: ", fileArray)
 
