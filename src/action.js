@@ -35,7 +35,7 @@ async function run(file) {
   if (error1) {
     console.log(error1)
   } else {
-    console.log("File uploaded.")
+    console.log(file, " uploaded.")
   }
 
   if (getInput("EMAIL") !== "") {
@@ -49,5 +49,6 @@ async function run(file) {
 }
 
 for (let f in fileArray) {
+  console.log("debug line: ", f)
   run(f)
 }
