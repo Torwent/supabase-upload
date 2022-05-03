@@ -10,11 +10,12 @@ let fileArray = []
 const forFiles = (err, files) => {
   console.log("Debugging files: ", files)
   fileArray = files
+  console.log("Debugging fileArray: ", fileArray)
 }
 
 glob(filePath + getInput("ORIGIN_PATH"), forFiles)
 
-console.log("Debugging fileArray: ", fileArray)
+console.log("Debugging fileArray2: ", fileArray)
 
 const supabase = createClient(
   getInput("SUPABASE_URL"),
