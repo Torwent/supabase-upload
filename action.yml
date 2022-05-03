@@ -1,0 +1,30 @@
+name: "Supabase Upload"
+description: "Upload files to a supabase bucket"
+author: "Torwent"
+
+inputs:
+  SUPABASE_URL:
+    description: "Supabase URL"
+    required: true
+  SUPABASE_ANON_KEY:
+    description: "Supabase ANON Key"
+    required: true
+  BUCKET:
+    description: "Supabase bucket"
+    required: true
+  EMAIL:
+    description: "User email with rights to upload files"
+    required: false
+  PASSWORD:
+    description: "Password for the user with rights to upload files"
+    required: false
+  TARGET_PATH:
+    description: "Target full path"
+    required: true
+  ORIGIN_PATH:
+    description: "Origin file"
+    required: true
+
+runs:
+  using: "node16"
+  main: "dist/index.js"

@@ -1,0 +1,26 @@
+name: Test Supabase Upload
+
+on:
+  push:
+    branches: master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Show system
+        shell: bash
+        run: |
+          ls -a
+          pwd
+      - name: Supabase upload
+        uses: ./
+        with:
+          EMAIL: "github@waspscripts.com"
+          PASSWORD: ${{ secrets.SB_USER_PASSWORD }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          BUCKET: "test"
+          TARGET_PATH: "test/test.simba"
+          ORIGIN_PATH: "test.simba"
