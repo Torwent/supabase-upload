@@ -12,6 +12,7 @@
   "dependencies": {
     "@actions/core": "^1.7.0",
     "@supabase/supabase-js": "^1.35.2",
-    "@vercel/ncc": "^0.33.4"
+    "@vercel/ncc": "^0.33.4",
+    "glob": "^8.0.1"
   }
 }
