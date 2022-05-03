@@ -19379,7 +19379,7 @@ async function run(file) {
   if (error1) {
     console.log(error1)
   } else {
-    console.log("File uploaded.")
+    console.log(file, " uploaded.")
   }
 
   if ((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL") !== "") {
@@ -19393,6 +19393,7 @@ async function run(file) {
 }
 
 for (let f in fileArray) {
+  console.log("debug line: ", f)
   run(f)
 }
 
