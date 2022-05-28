@@ -23,6 +23,6 @@ jobs:
           PASSWORD: ${{ secrets.SB_USER_PASSWORD }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          BUCKET: "test"
+          BUCKET: "test2"
           TARGET_PATH: "test/${{ env.MY_DATE }}/"
           ORIGIN_PATH: "*.simba"
