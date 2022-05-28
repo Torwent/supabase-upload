@@ -8,13 +8,14 @@ let isLoggedIn = false
 
 const filePath = process.cwd() + "/"
 const fileArray = sync(filePath + getInput("ORIGIN_PATH"))
+console.log("Files found to upload: ", fileArray)
 
 const supabase = createClient(
   getInput("SUPABASE_URL"),
   getInput("SUPABASE_ANON_KEY")
 )
 
-async function run(file) {
+const run = async (file) => {
   if (!isLoggedIn && getInput("EMAIL") !== "" && getInput("PASSWORD") !== "") {
     const { loginError } = await supabase.auth.signIn({
       email: getInput("EMAIL"),
@@ -29,9 +30,14 @@ async function run(file) {
     }
   }
 
+  let f = readFileSync(file)
+
+  if (f === "") console.log("File is empty.")
+  console.log(f)
+
   const { uploadError } = await supabase.storage
     .from(getInput("BUCKET"))
-    .upload(getInput("TARGET_PATH") + basename(file), readFileSync(file))
+    .upload(getInput("TARGET_PATH") + basename(file), f)
 
   if (uploadError) {
     console.log(uploadError)
@@ -41,7 +47,6 @@ async function run(file) {
 }
 
 for (let f of fileArray) {
-  console.log("debug line: ", f)
   run(f)
 }
 
