@@ -32,9 +32,6 @@ const run = async (file) => {
 
   let f = readFileSync(file)
 
-  if (f === "") console.log("File is empty.")
-  console.log(f)
-
   let fullPath = getInput("TARGET_PATH") + basename(file)
   console.log("Full path: ", fullPath)
   const { uploadError } = await supabase.storage
