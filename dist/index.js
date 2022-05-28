@@ -19300,9 +19300,11 @@ const run = async (file) => {
   if (f === "") console.log("File is empty.")
   console.log(f)
 
+  let fullPath = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("TARGET_PATH") + (0,path__WEBPACK_IMPORTED_MODULE_2__.basename)(file)
+  console.log("Full path: ", fullPath)
   const { uploadError } = await supabase.storage
     .from((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("BUCKET"))
-    .upload((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("TARGET_PATH") + (0,path__WEBPACK_IMPORTED_MODULE_2__.basename)(file), f)
+    .upload(fullPath, f)
 
   if (uploadError) {
     console.log(uploadError)
