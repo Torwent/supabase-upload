@@ -55,6 +55,6 @@ if (isLoggedIn) {
     console.log(logoutError)
   } else {
     isLoggedIn = false
-    console.log("Logged out of ", getInput("EMAIL"))
+    console.log("Logged out of ", getInput("EMAIL"), ".")
   }
 }
