@@ -19281,46 +19281,46 @@ const supabase = (0,_supabase_supabase_js__WEBPACK_IMPORTED_MODULE_4__.createCli
 )
 
 const run = async (file) => {
-  if (!isLoggedIn && (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL") !== "" && (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("PASSWORD") !== "") {
-    const { loginError } = await supabase.auth.signIn({
-      email: (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"),
-      password: (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("PASSWORD"),
-    })
-
-    if (loginError) {
-      console.log(loginError)
-    } else {
-      isLoggedIn = true
-      console.log("Logged in as: ", (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"))
-    }
-  }
-
   let f = (0,fs__WEBPACK_IMPORTED_MODULE_1__.readFileSync)(file)
 
   let fullPath = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("TARGET_PATH") + (0,path__WEBPACK_IMPORTED_MODULE_2__.basename)(file)
-  console.log("Full path: ", fullPath)
-  const { uploadError } = await supabase.storage
+  console.log("Full destination path: ", fullPath)
+  const { error } = await supabase.storage
     .from((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("BUCKET"))
     .upload(fullPath, f)
 
-  if (uploadError) {
-    console.log(uploadError)
+  if (error) {
+    console.log("Got an error: ", error)
   } else {
     console.log(file, " uploaded.")
   }
 }
 
-for (let f of fileArray) {
-  run(f)
+if (!isLoggedIn && (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL") !== "" && (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("PASSWORD") !== "") {
+  const { error } = await supabase.auth.signIn({
+    email: (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"),
+    password: (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("PASSWORD"),
+  })
+
+  if (error) {
+    console.log(error)
+  } else {
+    isLoggedIn = true
+    console.log("Logged in as: ", (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"))
+  }
+}
+
+for (let file of fileArray) {
+  run(file)
 }
 
 if (isLoggedIn) {
-  const { logoutError } = await supabase.auth.signOut()
-  if (logoutError) {
-    console.log(logoutError)
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    console.log(error)
   } else {
     isLoggedIn = false
-    console.log("Logged out of ", (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"))
+    console.log("Logged out of ", (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("EMAIL"), ".")
   }
 }
 
